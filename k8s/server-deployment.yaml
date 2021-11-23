@@ -15,6 +15,22 @@ spec:
       containers:
         - name: server
           image: stephengrider/multi-server
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT
+              value: "6379"
+            - name: PGUSER
+              value: postgres-cluster-ip-service
+            - name: PGHOST
+              value: "5432"
+            - name: PGDATABASE
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
           resources:
             limits:
               memory: "128Mi"
