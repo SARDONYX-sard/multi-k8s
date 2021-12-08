@@ -55,11 +55,11 @@ jobs:
           gcloud container clusters get-credentials $GKE_CLUSTER
 
       # https://github.com/google-github-actions/get-gke-credentials
-      - id: get-credentials
-        uses: google-github-actions/get-gke-credentials@v0.3.0
-        with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
+      # - id: get-credentials
+      #   uses: google-github-actions/get-gke-credentials@v0.3.0
+      #   with:
+      #     cluster_name: ${{ env.GKE_CLUSTER }}
+      #     location: ${{ env.GKE_ZONE }}
 
       - name: Build
         run: |-
