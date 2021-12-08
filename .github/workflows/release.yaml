@@ -16,7 +16,7 @@ jobs:
 
     env:
       PROJECT_ID: ${{ secrets.GKE_PROJECT_DEV }}
-      PUSH_PATH: gcr.io/${{ env.PROJECT_ID}}/cygnetops
+      PUSH_PATH: gcr.io/${{ secrets.GKE_PROJECT_DEV }}/cygnetops
       GKE_CLUSTER: multi-cluster
       GKE_ZONE: us-central1-c
 
