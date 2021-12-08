@@ -2,28 +2,28 @@
 # Temp Files
 # ------------------------------------------------------------------------------------------------------------------------------
 # Generated temporary files by OS or editors.
-*~
 *#
 *.bak
 *.tmproj
+*~
 .buildpath
+.idea
+.netbeans
 .project
 .settings
-.idea
 .tmp
-.netbeans
-nbproject
 lib
-
+nbproject
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # Dynamicaly Generated Files
 # ------------------------------------------------------------------------------------------------------------------------------
 # Hidden files created by OS.
+.DS_STORE
+.DS_Store
+.env
 Thumbs.db
 desktop.ini
-.DS_Store
-.DS_STORE
 
 # Generated files created by tests.
 coverage
