@@ -188,6 +188,10 @@ spec:
     spec:
       containers:
         - name: kubernetes-dashboard
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           image: kubernetesui/dashboard:v2.2.0
           imagePullPolicy: Always
           ports:
@@ -272,6 +276,10 @@ spec:
     spec:
       containers:
         - name: dashboard-metrics-scraper
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           image: kubernetesui/metrics-scraper:v1.0.6
           ports:
             - containerPort: 8000
