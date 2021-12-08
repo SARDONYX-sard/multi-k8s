@@ -21,6 +21,7 @@ jobs:
       GKE_ZONE: us-central1-c
 
     steps:
+      # https://qiita.com/yakamazu/items/b98d0ae314869f50a97f
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -57,6 +58,8 @@ jobs:
           gcloud config set compute/zone $GKE_ZONE
           gcloud container clusters get-credentials $GKE_CLUSTER
 
+          gcloud auth configure-docker
+
       # https://github.com/google-github-actions/get-gke-credentials
       # - id: get-credentials
       #   uses: google-github-actions/get-gke-credentials@v0.3.0
@@ -65,7 +68,6 @@ jobs:
       #     location: ${{ env.GKE_ZONE }}
 
       - name: Build
-        working-directory: ./
         run: |-
           docker build -t $PUSH_PATH/multi-client-k8s:latest -t $PUSH_PATH/multi-client-k8s:$GITHUB_SHA -f ./client/Dockerfile ./client
           docker build -t $PUSH_PATH/multi-server-k8s-pgfix:latest -t $PUSH_PATH/multi-server-k8s-pgfix:$GITHUB_SHA -f ./server/Dockerfile ./server
