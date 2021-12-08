@@ -45,15 +45,14 @@ jobs:
         env:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
         run: |-
-          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
 
           # Now you can run gcloud commands authenticated as the impersonated service account.
 
           gcloud components update kubectl
-          gcloud auth activate-service-account --key-file ${{ steps.auth.outputs.credentials_file_path }}
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
           gcloud config set project multi-k8s-333119
-          gcloud config set compute/zone us-central1-c
-          gcloud container clusters get-credentials multi-cluster
+          gcloud config set compute/zone $GKE_ZONE
+          gcloud container clusters get-credentials $GKE_CLUSTER
 
       # https://github.com/google-github-actions/get-gke-credentials
       - id: get-credentials
