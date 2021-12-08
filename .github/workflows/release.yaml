@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - "release/*"
+      - master
 
 jobs:
   job_id:
@@ -19,7 +19,6 @@ jobs:
       PUSH_PATH: gcr.io/${{ env.PROJECT_ID}}/cygnetops
       GKE_CLUSTER: multi-cluster
       GKE_ZONE: us-central1-c
-      DEPLOYMENT_NAME: <deployment-name>
 
     steps:
       # Install gcloud, do not specify authentication.
