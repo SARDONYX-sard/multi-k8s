@@ -31,7 +31,6 @@ jobs:
         name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v0.4.1"
         with:
-          create_credentials_file: "true"
           # `providers/gha-provider==PROVIDER_NAME` see (https://zenn.dev/vvakame/articles/gha-and-gcp-workload-identity)
           workload_identity_provider: "projects/967344766275/locations/global/workloadIdentityPools/github-actions/providers/gha-provider"
           service_account: "travis-deployer@multi-k8s-333119.iam.gserviceaccount.com"
