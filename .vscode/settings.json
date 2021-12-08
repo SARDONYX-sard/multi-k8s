@@ -3,6 +3,7 @@
     "CLOUDSDK",
     "cygnetops",
     "kubernetesui",
+    "Kustomize",
     "PATHTYPE",
     "PGDATABASE",
     "pgfix",
