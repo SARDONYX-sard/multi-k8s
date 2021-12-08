@@ -58,7 +58,7 @@ jobs:
           gcloud config set compute/zone $GKE_ZONE
           gcloud container clusters get-credentials $GKE_CLUSTER
 
-          gcloud auth configure-docker
+          gcloud --quiet auth configure-docker
 
       # https://github.com/google-github-actions/get-gke-credentials
       - id: get-credentials
