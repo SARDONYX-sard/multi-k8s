@@ -21,6 +21,9 @@ jobs:
       GKE_ZONE: us-central1-c
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       # Install gcloud, do not specify authentication.
       - uses: "google-github-actions/setup-gcloud@master"
         with:
