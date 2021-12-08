@@ -61,11 +61,15 @@ jobs:
           gcloud auth configure-docker
 
       # https://github.com/google-github-actions/get-gke-credentials
-      # - id: get-credentials
-      #   uses: google-github-actions/get-gke-credentials@v0.3.0
-      #   with:
-      #     cluster_name: ${{ env.GKE_CLUSTER }}
-      #     location: ${{ env.GKE_ZONE }}
+      - id: get-credentials
+        uses: google-github-actions/get-gke-credentials@v0.3.0
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
 
       - name: Build
         run: |-
