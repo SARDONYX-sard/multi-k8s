@@ -62,6 +62,7 @@ jobs:
       #     location: ${{ env.GKE_ZONE }}
 
       - name: Build
+        working-directory: ./complex
         run: |-
           docker build -t $PUSH_PATH/multi-client-k8s:latest -t $PUSH_PATH/multi-client-k8s:$GITHUB_SHA -f ./client/Dockerfile ./client
           docker build -t $PUSH_PATH/multi-server-k8s-pgfix:latest -t $PUSH_PATH/multi-server-k8s-pgfix:$GITHUB_SHA -f ./server/Dockerfile ./server
