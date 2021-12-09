@@ -126,16 +126,16 @@ jobs:
       #     cluster_name: ${{ env.GKE_CLUSTER }}
       #     location: ${{ env.GKE_ZONE }}
 
-      # kustomize を設定する
-      - name: Set up Kustomize
-        run: |-
-          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-          chmod u+x ./kustomize
+      # # kustomize を設定する
+      # - name: Set up Kustomize
+      #   run: |-
+      #     curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+      #     chmod u+x ./kustomize
 
       - id: deploy-pods
         name: Deploy
         run: |-
-          ./kustomize build k8s | kubectl apply -f -
+          kubectl apply -f k8s
           kubectl set image deployments/server-deployment server=${{ secrets.DOCKERHUB_USERNAME }}/multi-server-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
           kubectl set image deployments/client-deployment client=${{ secrets.DOCKERHUB_USERNAME }}/multi-client-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
           kubectl set image deployments/worker-deployment worker=${{ secrets.DOCKERHUB_USERNAME }}/multi-worker-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
