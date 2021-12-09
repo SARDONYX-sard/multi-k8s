@@ -135,7 +135,7 @@ jobs:
       - id: deploy-pods
         name: Deploy
         run: |-
-          ../kustomize build k8s | kubectl apply -f -
+          ./kustomize build k8s | kubectl apply -f -
           kubectl set image deployments/server-deployment server=${{ secrets.DOCKERHUB_USERNAME }}/multi-server-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
           kubectl set image deployments/client-deployment client=${{ secrets.DOCKERHUB_USERNAME }}/multi-client-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
           kubectl set image deployments/worker-deployment worker=${{ secrets.DOCKERHUB_USERNAME }}/multi-worker-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
