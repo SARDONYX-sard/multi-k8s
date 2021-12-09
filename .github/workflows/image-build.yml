@@ -65,7 +65,8 @@ jobs:
         run:
           docker build -t cygnetops/multi-${{ matrix.target }}:latest -t cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }} -f ./${{ matrix.target }}/Dockerfile  ./${{ matrix.target }}
 
-          docker push cygnetops/multi-${{ matrix.target }}:latest
+          docker push cygnetops/multi-${{ matrix.target }}:latest;
+
           docker push cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }}
 
   gcp:
