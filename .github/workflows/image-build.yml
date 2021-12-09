@@ -60,6 +60,8 @@ jobs:
           context: ./${{ matrix.target }}
           push: true
           tags: cygnetops/multi-${{ matrix.target }}:latest,cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }}
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.MYTOKEN }}
 
   gcp:
     needs: ["parameters", "build-and-push"]
