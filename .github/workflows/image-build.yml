@@ -76,7 +76,6 @@ jobs:
 
     env:
       PROJECT_ID: ${{ secrets.GKE_PROJECT_DEV }}
-      PUSH_PATH: cygnetops
       GKE_CLUSTER: multi-cluster
       GKE_ZONE: us-central1-c
 
@@ -121,11 +120,11 @@ jobs:
           gcloud --quiet auth configure-docker
 
       # https://github.com/google-github-actions/get-gke-credentials
-      - id: get-credentials
-        uses: google-github-actions/get-gke-credentials@v0.3.0
-        with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
+      # - id: get-credentials
+      #   uses: google-github-actions/get-gke-credentials@v0.3.0
+      #   with:
+      #     cluster_name: ${{ env.GKE_CLUSTER }}
+      #     location: ${{ env.GKE_ZONE }}
 
       # kustomize を設定する
       - name: Set up Kustomize
@@ -137,6 +136,6 @@ jobs:
         name: Deploy
         run: |-
           ../kustomize build k8s | kubectl apply -f -
-          kubectl set image deployments/server-deployment server=$PUSH_PATH/multi-server-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
-          kubectl set image deployments/client-deployment client=$PUSH_PATH/multi-client-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
-          kubectl set image deployments/worker-deployment worker=$PUSH_PATH/multi-worker-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
+          kubectl set image deployments/server-deployment server=${{ secrets.DOCKERHUB_USERNAME }}/multi-server-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
+          kubectl set image deployments/client-deployment client=${{ secrets.DOCKERHUB_USERNAME }}/multi-client-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
+          kubectl set image deployments/worker-deployment worker=${{ secrets.DOCKERHUB_USERNAME }}/multi-worker-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
