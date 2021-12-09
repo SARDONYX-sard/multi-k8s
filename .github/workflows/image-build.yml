@@ -54,14 +54,19 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: ./${{ matrix.target }}
-          push: true
-          tags: cygnetops/multi-${{ matrix.target }}:latest,cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }}
-          secrets: |
-            GIT_AUTH_TOKEN=${{ secrets.MYTOKEN }}
+        # id: docker_build
+        # uses: docker/build-push-action@v2
+        # with:
+        #   context: ./${{ matrix.target }}
+        #   push: true
+        #   tags: cygnetops/multi-${{ matrix.target }}:latest,cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }}
+        #   secrets: |
+        #     GIT_AUTH_TOKEN=${{ secrets.MYTOKEN }}
+        run:
+          docker build -t cygnetops/multi-${{ matrix.target }}:latest -t cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }} -f ./${{ matrix.target }}
+
+          docker push cygnetops/multi-${{ matrix.target }}:latest
+          docker push cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }}
 
   gcp:
     needs: ["parameters", "build-and-push"]
