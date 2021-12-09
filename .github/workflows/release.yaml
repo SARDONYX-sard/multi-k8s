@@ -1,3 +1,6 @@
+# need secrets env vars
+# 1. GKE_PROJECT_DEV
+
 name: Release
 
 on:
@@ -5,18 +8,20 @@ on:
     branches:
       - master
 
+# https://docs.github.com/ja/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-google-cloud-platform#requesting-the-access-token
+permissions:
+  contents: "read"
+  id-token: "write"
+
 jobs:
   job_id:
     # ...
     runs-on: ubuntu-latest
     # Add "id-token" with the intended permissions.
-    permissions:
-      contents: "read"
-      id-token: "write"
 
     env:
       PROJECT_ID: ${{ secrets.GKE_PROJECT_DEV }}
-      PUSH_PATH: gcr.io/${{ secrets.GKE_PROJECT_DEV }}/cygnetops
+      PUSH_PATH: cygnetops
       GKE_CLUSTER: multi-cluster
       GKE_ZONE: us-central1-c
 
@@ -66,27 +71,6 @@ jobs:
         with:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
-
-      - uses: satackey/action-docker-layer-caching@v0.0.11
-        # Ignore the failure of a step and avoid terminating the job.
-        continue-on-error: true
-
-      - name: Build
-        run: |-
-          docker build -t $PUSH_PATH/multi-client-k8s:latest -t $PUSH_PATH/multi-client-k8s:$GITHUB_SHA -f ./client/Dockerfile ./client
-          docker build -t $PUSH_PATH/multi-server-k8s-pgfix:latest -t $PUSH_PATH/multi-server-k8s-pgfix:$GITHUB_SHA -f ./server/Dockerfile ./server
-          docker build -t $PUSH_PATH/multi-worker-k8s:latest -t $PUSH_PATH/multi-worker-k8s:$GITHUB_SHA -f ./worker/Dockerfile ./worker
-
-      # Docker イメージを Google Container Registry にプッシュする
-      - name: Publish
-        run: |-
-          docker push $PUSH_PATH/multi-client-k8s:latest
-          docker push $PUSH_PATH/multi-server-k8s-pgfix:latest
-          docker push $PUSH_PATH/multi-worker-k8s:latest
-
-          docker push $PUSH_PATH/multi-client-k8s:$GITHUB_SHA
-          docker push $PUSH_PATH/multi-server-k8s-pgfix:$GITHUB_SHA
-          docker push $PUSH_PATH/multi-worker-k8s:$GITHUB_SHA
 
       # kustomize を設定する
       - name: Set up Kustomize
