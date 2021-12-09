@@ -63,11 +63,11 @@ jobs:
         #   secrets: |
         #     GIT_AUTH_TOKEN=${{ secrets.MYTOKEN }}
         run:
-          docker build -t sardonyx30/cygnetops/multi-${{ matrix.target }}:latest -t sardonyx30/cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }} -f ./${{ matrix.target }}/Dockerfile  ./${{ matrix.target }}
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/multi-${{ matrix.target }}:latest -t ${{ secrets.DOCKERHUB_USERNAME }}/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }} -f ./${{ matrix.target }}/Dockerfile  ./${{ matrix.target }}
 
-          docker push sardonyx30/cygnetops/multi-${{ matrix.target }}:latest;
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/multi-${{ matrix.target }}:latest;
 
-          docker push sardonyx30/cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }}
 
   gcp:
     needs: ["parameters", "build-and-push"]
