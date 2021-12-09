@@ -63,7 +63,7 @@ jobs:
         #   secrets: |
         #     GIT_AUTH_TOKEN=${{ secrets.MYTOKEN }}
         run:
-          docker build -t cygnetops/multi-${{ matrix.target }}:latest -t cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }} -f ./${{ matrix.target }}/Dockerfile  ./${{ matrix.target }}
+          docker build -t sardonyx30/cygnetops/multi-${{ matrix.target }}:latest -t sardonyx30/cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }} -f ./${{ matrix.target }}/Dockerfile  ./${{ matrix.target }}
 
           docker push sardonyx30/cygnetops/multi-${{ matrix.target }}:latest;
 
