@@ -33,7 +33,6 @@ jobs:
     strategy:
       matrix:
         target: ["client", "server", "worker"]
-        tag: ["client-k8s", "server-k8s-pgfix", "worker-k8s"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -48,13 +47,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
+        id: docker_build
         uses: docker/build-push-action@v2
-        env:
-          BUILD_PATH: cygnetops
         with:
           context: ./${{ matrix.target }}
           push: true
-          tags: cygnetops/multi-${{ matrix.tag }}:latest,cygnetops/multi-${{ matrix.tag }}:${{ needs.parameters.outputs.GITHUB_SHA }}
+          tags: cygnetops/multi-${{ matrix.target }}:latest,cygnetops/multi-${{ matrix.target }}:${{ needs.parameters.outputs.GITHUB_SHA }}
 
   gcp:
     needs: ["parameters", "build-and-push"]
@@ -124,6 +122,6 @@ jobs:
         name: Deploy
         run: |-
           ../kustomize build k8s | kubectl apply -f -
-          kubectl set image deployments/server-deployment server=$PUSH_PATH/multi-server-k8s-pgfix:${{ needs.parameters.outputs.GITHUB_SHA }}
+          kubectl set image deployments/server-deployment server=$PUSH_PATH/multi-server-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
           kubectl set image deployments/client-deployment client=$PUSH_PATH/multi-client-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
           kubectl set image deployments/worker-deployment worker=$PUSH_PATH/multi-worker-k8s:${{ needs.parameters.outputs.GITHUB_SHA }}
